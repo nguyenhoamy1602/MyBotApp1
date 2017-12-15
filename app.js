@@ -171,6 +171,10 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
         session.message.text);
     })
 
+    .matches('Tweet', (session, args) => {
+    session.send("OK, I'll connect you to your Twitter account");
+    })
+
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
