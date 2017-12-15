@@ -55,6 +55,17 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('Cancel', (session) => {
     session.send('You reached Cancel intent, you said \'%s\'.', session.message.text);
 })
+
+.matches('None', (session) => {
+    session.send("Hi... I'm the note bot sample. I can create new notes, read saved notes to you and delete notes.");
+
+   // If the object for storing notes in session.userData doesn't exist yet, initialize it
+   if (!session.userData.notes) {
+       session.userData.notes = {};
+       console.log("initializing userData.notes in default message handler");
+   }
+})
+
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
