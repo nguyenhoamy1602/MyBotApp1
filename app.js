@@ -166,7 +166,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
         session.endDialog("Here's the '%s' note: '%s'.", results.response.entity, session.userData.notes[results.response.entity].text);
     }])
 
-    .matchs(/^hey/i, (session, args) => {
+    .matches(/^hey/i, (session, args) => {
         session.send("If you can't think of anything more interesting to say than '%s' don't message me!",
         session.message.text);
     })
