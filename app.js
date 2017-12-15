@@ -140,6 +140,32 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
         session.endDialog("Deleted the '%s' note.", results.response.entity);
     }])
 
+    .matches('Note.ReadAloud', [(session, args, next) => {
+        if (noteCount(session.userData.notes) > 0) {
+
+            // Resolve and store any Note.Title entity passed from LUIS.
+            var title;
+            var intent = args.intent;
+            var entity = builder.EntityRecognizer.findEntity(intent.entities, 'Note.Title');
+            if (entity) {
+                // Verify it's in our set of notes.
+                title = builder.EntityRecognizer.findBestMatch(session.userData.notes, entity.entity);
+            }
+
+            // Prompt for note name
+            if (!title) {
+                builder.Prompts.choice(session, 'Which note would you like to read?', session.userData.notes);
+            } else {
+                next({ response: title });
+            }
+        } else {
+            session.endDialog("No notes to read.");
+        }
+    },
+    (session, results) => {        
+        session.endDialog("Here's the '%s' note: '%s'.", results.response.entity, session.userData.notes[results.response.entity].text);
+    }])
+
 /*
 .matches('<yourIntent>')... See details at http://docs.botframework.com/builder/node/guides/understanding-natural-language/
 */
